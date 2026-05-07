@@ -1,0 +1,59 @@
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# IDE and editor local settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS local files
+.DS_Store
+Thumbs.db
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# Local MuJoCo / simulation outputs
+output/
+outputs/
+artifacts/
+logs/
+*.log
+
+# Generated MuJoCo artifacts
+*.mjb
+*.mjcf.compiled.xml
+controller_config.local.json
+conversion_report.local.json
+diagnostics.local.json
+
+# Local scratch files
+local/
+tmp/
+temp/
+sandbox/
+
+# Large local assets and downloaded models
+assets/local/
+models/local/
