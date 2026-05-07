@@ -1,4 +1,13 @@
-[目次](../../README.md) > docs > ja-JP > ローカルMuJoCo環境構築
+<!--
+HLDocS:LLM-MANAGED
+doc_id: doc-20260508-000002Z-SVMJ
+lang: ja-JP
+canonical_title: ローカルMuJoCo環境構築
+document_type: usage
+canonical_document: true
+-->
+
+[目次](目次.md) > SansaVRM-MuJoCo-Adapter > ローカル環境 > ローカルMuJoCo環境構築
 
 # ローカルMuJoCo環境構築
 
@@ -48,6 +57,7 @@ SansaVRM-MuJoCo-Adapter/
 ├─ output/                         # Git対象外
 └─ docs/
    └─ ja-JP/
+      ├─ 目次.md
       └─ 07_ローカルMuJoCo環境構築.md
 ```
 
@@ -212,4 +222,4 @@ GUI viewer が失敗しても、headless の `MjModel.from_xml_path` と `mj_ste
 
 ---
 
-[目次](../../README.md) > docs > ja-JP > ローカルMuJoCo環境構築
+[目次](目次.md) > SansaVRM-MuJoCo-Adapter > ローカル環境 > ローカルMuJoCo環境構築
