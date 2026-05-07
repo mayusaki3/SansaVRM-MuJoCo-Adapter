@@ -1,47 +1,47 @@
 # SansaVRM-MuJoCo-Adapter
 
-SansaVRM-MuJoCo-Adapter is an adapter project for connecting SansaVRM with MuJoCo, MJCF, and related controller configuration artifacts.
+SansaVRM-MuJoCo-Adapter は、SansaVRM と MuJoCo / MJCF / controller configuration を接続するための Adapter プロジェクトです。
 
-This repository keeps MuJoCo-specific conversion, approximation, simulation-support, and validation concerns outside the SansaVRM core repository.
+本リポジトリは、MuJoCo 固有の変換、近似、シミュレーション補助、検証処理を SansaVRM 本体から分離して扱うことを目的とします。
 
-## Status
+## 状態
 
-This repository is in the early design and local-environment setup phase.
+本リポジトリは、初期設計およびローカル MuJoCo 環境整備の段階です。
 
-Current focus:
+現在の主な作業対象は以下です。
 
-- Defining the boundary between SansaVRM core and this adapter
-- Preparing a local MuJoCo development environment
-- Verifying minimal MJCF loading and stepping
-- Organizing documentation for future multilingual support
+- SansaVRM 本体と本 Adapter の責務境界整理
+- ローカル MuJoCo 開発環境の整備
+- 最小 MJCF モデルの読み込みと step 実行確認
+- 多言語対応を前提としたドキュメント構成の整備
 
-## Documentation
+## ドキュメント
 
-Project documentation is maintained under `docs/<language-code>/`.
+ドキュメントは `docs/<language-code>/` 配下で管理します。
 
-| Language | Index |
+| 言語 | 目次 |
 | --- | --- |
-| Japanese | [docs/ja-JP/目次.md](docs/ja-JP/目次.md) |
+| 日本語 | [docs/ja-JP/目次.md](docs/ja-JP/目次.md) |
 
-## Quick Start
+## クイックスタート
 
-For local MuJoCo setup and verification, see the Japanese documentation index.
+ローカル MuJoCo 環境構築および動作確認手順は、日本語ドキュメント目次から参照してください。
 
 - [docs/ja-JP/目次.md](docs/ja-JP/目次.md)
 
-## Repository Role
+## リポジトリの役割
 
-SansaVRM core is expected to manage common model information, adapter-facing APIs, and custom parameter schemas.
+SansaVRM 本体は、共通モデル情報、Adapter 向け API、custom parameter schema を管理する想定です。
 
-This repository is expected to manage MuJoCo-specific behavior, including:
+本リポジトリは、MuJoCo 固有の処理を担当します。
 
-- MJCF generation
-- MuJoCo actuator mapping
-- controller configuration generation
-- MuJoCo-specific diagnostics and conversion reports
-- local MuJoCo validation examples
+- MJCF 生成
+- MuJoCo actuator 写像
+- controller configuration 生成
+- MuJoCo 固有 diagnostics / conversion report 生成
+- ローカル MuJoCo 検証用サンプル管理
 
-Detailed specifications are maintained in the documentation tree rather than in this README.
+詳細な仕様、手順、テスト方針は README ではなく、ドキュメントツリーに記録します。
 
 ## License
 
