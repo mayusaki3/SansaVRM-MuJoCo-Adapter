@@ -16,6 +16,23 @@ Current scope:
 - MuJoCo 固有パラメータの扱いの検討
 - SansaVRM 本体 API との責務境界の整理
 
+## Quick Start
+
+ローカル MuJoCo 環境の構築手順は以下を参照してください。
+
+- [ローカルMuJoCo環境構築](docs/ja-JP/07_ローカルMuJoCo環境構築.md)
+- [ローカル動作確認手順](docs/ja-JP/08_ローカル動作確認手順.md)
+
+最小確認コマンド：
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements-dev.txt
+python -c "import mujoco; m=mujoco.MjModel.from_xml_path('examples/minimal_body/model.xml'); d=mujoco.MjData(m); mujoco.mj_step(m,d); print('ok', m.nbody, m.njnt, m.ngeom)"
+```
+
 ## Purpose
 
 SansaVRM は、VRM 0.x / VRM 1.0 / URDF などのファイル変換対象に加え、MuJoCo との連携を想定します。
@@ -206,6 +223,7 @@ MJCF に直接出力しない制御・実行補助情報です。
 SansaVRM-MuJoCo-Adapter/
 ├─ README.md
 ├─ LICENSE
+├─ requirements-dev.txt
 ├─ docs/
 │  └─ ja-JP/
 │     ├─ 01_目的と前提.md
@@ -213,7 +231,9 @@ SansaVRM-MuJoCo-Adapter/
 │     ├─ 03_MJCF変換方針.md
 │     ├─ 04_アクチュエータ写像.md
 │     ├─ 05_custom_parameter_mapping.md
-│     └─ 06_検証方針.md
+│     ├─ 06_検証方針.md
+│     ├─ 07_ローカルMuJoCo環境構築.md
+│     └─ 08_ローカル動作確認手順.md
 ├─ schemas/
 │  ├─ controller_config.schema.json
 │  ├─ conversion_report.schema.json
