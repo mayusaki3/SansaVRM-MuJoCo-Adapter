@@ -7,7 +7,7 @@ document_type: usage
 canonical_document: true
 -->
 
-[目次](../../../目次.md) > SansaVRM-MuJoCo-Adapter > 実装計画 > MuJoCo連携 > ローカルMuJoCo環境構築
+[目次](../../目次.md) > SansaVRM-MuJoCo-Adapter > 実装計画 > MuJoCo連携 > ローカルMuJoCo環境構築
 
 # ローカルMuJoCo環境構築
 
@@ -224,4 +224,4 @@ GUI viewer が失敗しても、headless の `MjModel.from_xml_path` と `mj_ste
 
 ---
 
-[目次](../../../目次.md) > SansaVRM-MuJoCo-Adapter > 実装計画 > MuJoCo連携 > ローカルMuJoCo環境構築
+[目次](../../目次.md) > SansaVRM-MuJoCo-Adapter > 実装計画 > MuJoCo連携 > ローカルMuJoCo環境構築
