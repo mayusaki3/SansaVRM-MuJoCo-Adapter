@@ -7,7 +7,7 @@ document_type: spec
 canonical_document: true
 -->
 
-[目次](../../../目次.md) > SansaVRM-MuJoCo-Adapter > 仕様 > 共通 > AdapterAPI前提
+[目次](../../目次.md) > SansaVRM-MuJoCo-Adapter > 仕様 > 共通 > AdapterAPI前提
 
 # AdapterAPI前提
 
@@ -116,4 +116,4 @@ Adapter は、以下の事象を diagnostics として記録する。
 
 ---
 
-[目次](../../../目次.md) > SansaVRM-MuJoCo-Adapter > 仕様 > 共通 > AdapterAPI前提
+[目次](../../目次.md) > SansaVRM-MuJoCo-Adapter > 仕様 > 共通 > AdapterAPI前提
