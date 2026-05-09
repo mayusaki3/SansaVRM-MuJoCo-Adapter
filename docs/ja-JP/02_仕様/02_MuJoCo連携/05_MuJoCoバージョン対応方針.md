@@ -231,11 +231,11 @@ Adapter は、可能な範囲で過去の MuJoCo バージョンに対する map
 
 ## 20. 関連ドキュメント
 
-- `02_仕様/02_MuJoCo連携/01_MJCF変換方針.md`
-- `02_仕様/02_MuJoCo連携/03_custom_parameter_mapping.md`
-- `02_仕様/02_MuJoCo連携/04_controller_config仕様.md`
-- `02_仕様/01_共通/04_diagnostics仕様.md`
-- `04_実装計画/02_MuJoCo連携/01_ローカルMuJoCo環境構築.md`
+- [MJCF変換方針](./01_MJCF変換方針.md)
+- [custom parameter mapping](./03_custom_parameter_mapping.md)
+- [controller_config仕様](./04_controller_config仕様.md)
+- [diagnostics仕様](../01_共通/04_diagnostics仕様.md)
+- [ローカルMuJoCo環境構築](../../04_実装計画/02_MuJoCo連携/01_ローカルMuJoCo環境構築.md)
 
 ---
 
