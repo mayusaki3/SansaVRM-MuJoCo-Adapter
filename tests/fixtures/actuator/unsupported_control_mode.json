@@ -1,0 +1,21 @@
+{
+  "actuator_id": "experimental_actuator",
+  "actuator_name": "Experimental Actuator",
+  "target_joint": "experimental_joint",
+  "control_mode": "impedance",
+  "actuator_type": "experimental",
+  "custom_parameters": [],
+  "expected": {
+    "mjcf_actuator_type": null,
+    "diagnostics": [
+      {
+        "severity": "error",
+        "category": "unsupported",
+        "code": "D-UNSUPPORTED-001",
+        "target_type": "actuator",
+        "target_id": "experimental_actuator"
+      }
+    ],
+    "conversion_report_status": "skipped"
+  }
+}
