@@ -1,0 +1,35 @@
+{
+  "actuator_id": "left_knee_servo",
+  "actuator_name": "Left Knee Servo",
+  "target_joint": "left_knee",
+  "control_mode": "position",
+  "actuator_type": "servo",
+  "position_limit_rad": [
+    -1.5708,
+    1.5708
+  ],
+  "torque_limit_nm": 3.5,
+  "kp": 120.0,
+  "kv": 4.0,
+  "gear_ratio": 1.0,
+  "custom_parameters": [
+    {
+      "namespace": "mujoco",
+      "name": "command_delay_ms",
+      "value": 5
+    },
+    {
+      "namespace": "mujoco",
+      "name": "deadband_rad",
+      "value": 0.01
+    }
+  ],
+  "expected": {
+    "mjcf_actuator_type": "position",
+    "controller_config_parameters": [
+      "command_delay_ms",
+      "deadband_rad"
+    ],
+    "diagnostics_max_severity": "info"
+  }
+}
