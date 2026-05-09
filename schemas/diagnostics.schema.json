@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mayusaki3.github.io/SansaVRM-MuJoCo-Adapter/schemas/diagnostics.schema.json",
+  "title": "SansaVRM-MuJoCo-Adapter diagnostics",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "diagnostics"
+  ],
+  "properties": {
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/diagnostic"
+      }
+    }
+  },
+  "$defs": {
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "diagnostic_id",
+        "severity",
+        "category",
+        "code",
+        "message",
+        "target_type",
+        "target_id",
+        "source",
+        "detail"
+      ],
+      "properties": {
+        "diagnostic_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "info",
+            "warning",
+            "error",
+            "fatal"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "input",
+            "schema",
+            "mapping",
+            "mjcf",
+            "adapter_artifact",
+            "version",
+            "fallback",
+            "non_reversible",
+            "unsupported",
+            "output",
+            "runtime"
+          ]
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^D-[A-Z0-9_]+-[0-9]{3}$"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_type": {
+          "type": "string",
+          "enum": [
+            "model",
+            "module",
+            "connection",
+            "slot",
+            "property",
+            "joint",
+            "collider",
+            "actuator",
+            "sensor",
+            "custom_parameter",
+            "custom_parameter_schema",
+            "artifact"
+          ]
+        },
+        "target_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "sansavrm_api",
+            "adapter",
+            "mjcf_writer",
+            "controller_config_writer",
+            "conversion_report_writer",
+            "diagnostics_writer",
+            "mujoco_loader",
+            "local_validation"
+          ]
+        },
+        "detail": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}
