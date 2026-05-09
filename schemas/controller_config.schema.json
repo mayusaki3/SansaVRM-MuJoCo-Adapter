@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mayusaki3.github.io/SansaVRM-MuJoCo-Adapter/schemas/controller_config.schema.json",
+  "title": "SansaVRM-MuJoCo-Adapter controller_config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "target",
+    "actuators"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter",
+        "mujoco_version"
+      ],
+      "properties": {
+        "adapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mujoco_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "actuators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/actuator"
+      }
+    }
+  },
+  "$defs": {
+    "actuator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actuator_id",
+        "target_joint",
+        "control_mode",
+        "runtime_control_mode",
+        "parameters",
+        "diagnostics_ref"
+      ],
+      "properties": {
+        "actuator_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_joint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "control_mode": {
+          "type": "string",
+          "enum": [
+            "position",
+            "velocity",
+            "torque",
+            "force",
+            "external_controller"
+          ]
+        },
+        "runtime_control_mode": {
+          "type": "string",
+          "enum": [
+            "none",
+            "position_pid",
+            "velocity_pid",
+            "torque_passthrough",
+            "external"
+          ]
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "number",
+              "integer",
+              "string",
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "diagnostics_ref": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}
