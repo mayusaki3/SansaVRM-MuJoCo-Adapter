@@ -1,0 +1,18 @@
+{
+  "diagnostics": [
+    {
+      "diagnostic_id": "diag-000001",
+      "severity": "info",
+      "category": "adapter_artifact",
+      "code": "D-ADAPTER_ARTIFACT-001",
+      "message": "command_delay_ms を controller_config へ分離しました。",
+      "target_type": "actuator",
+      "target_id": "left_knee_servo",
+      "source": "controller_config_writer",
+      "detail": {
+        "parameter": "command_delay_ms",
+        "artifact": "controller_config.json"
+      }
+    }
+  ]
+}
