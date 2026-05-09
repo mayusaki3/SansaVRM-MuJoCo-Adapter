@@ -1,0 +1,23 @@
+<mujoco model="position_servo">
+  <compiler angle="radian"/>
+
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+
+  <worldbody>
+    <light name="top_light" pos="0 0 2"/>
+    <geom name="floor" type="plane" size="1 1 0.01"/>
+
+    <body name="base_body" pos="0 0 0.1">
+      <geom name="base_geom" type="box" size="0.08 0.08 0.03" mass="0.2"/>
+
+      <body name="servo_link" pos="0 0 0.08">
+        <joint name="servo_hinge" type="hinge" axis="0 1 0" range="-1.57 1.57" damping="0.1"/>
+        <geom name="servo_link_geom" type="capsule" fromto="0 0 0 0 0 0.2" size="0.02" mass="0.1"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="servo_position" joint="servo_hinge" kp="10" ctrlrange="-1.57 1.57" forcerange="-2 2"/>
+  </actuator>
+</mujoco>
