@@ -47,6 +47,7 @@ logs/
 controller_config.local.json
 conversion_report.local.json
 diagnostics.local.json
+test_report.local.json
 
 # Local scratch files
 local/
