@@ -284,9 +284,9 @@ SansaVRM 本体側で diagnostics を保持する場合、Adapter 側 diagnostic
 
 ## 18. 関連ドキュメント
 
-- `02_仕様/01_共通/01_仕様概要.md`
-- `02_仕様/01_共通/02_AdapterAPI前提.md`
-- `02_仕様/01_共通/03_成果物仕様.md`
+- [仕様概要](./01_仕様概要.md)
+- [AdapterAPI前提](./02_AdapterAPI前提.md)
+- [成果物仕様](./03_成果物仕様.md)
 
 ---
 
