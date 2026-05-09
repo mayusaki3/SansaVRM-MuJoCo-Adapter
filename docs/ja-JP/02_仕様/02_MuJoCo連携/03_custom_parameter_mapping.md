@@ -447,10 +447,10 @@ custom parameter mapping では、以下を diagnostics に記録する。
 
 ## 18. 関連ドキュメント
 
-- `02_仕様/02_MuJoCo連携/01_MJCF変換方針.md`
-- `02_仕様/02_MuJoCo連携/02_アクチュエータ写像.md`
-- `02_仕様/02_MuJoCo連携/04_controller_config仕様.md`
-- `02_仕様/02_MuJoCo連携/05_MuJoCoバージョン対応方針.md`
+- [MJCF変換方針](./01_MJCF変換方針.md)
+- [アクチュエータ写像](./02_アクチュエータ写像.md)
+- [controller_config仕様](./04_controller_config仕様.md)
+- [MuJoCoバージョン対応方針](./05_MuJoCoバージョン対応方針.md)
 
 ---
 
