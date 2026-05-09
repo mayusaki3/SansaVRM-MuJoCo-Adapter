@@ -1,0 +1,40 @@
+{
+  "actuator_id": "right_arm_qdd",
+  "actuator_name": "Right Arm QDD",
+  "target_joint": "right_arm_pitch",
+  "control_mode": "torque",
+  "actuator_type": "qdd",
+  "torque_limit_nm": 4.0,
+  "gear_ratio": 6.0,
+  "current_limit_a": 15.0,
+  "voltage_limit_v": 24.0,
+  "custom_parameters": [
+    {
+      "namespace": "mujoco",
+      "name": "torque_limit_nm",
+      "value": 4.0
+    },
+    {
+      "namespace": "mujoco",
+      "name": "current_limit_a",
+      "value": 15.0
+    },
+    {
+      "namespace": "mujoco",
+      "name": "voltage_limit_v",
+      "value": 24.0
+    }
+  ],
+  "expected": {
+    "mjcf_actuator_type": "motor",
+    "mjcf_attributes": [
+      "gear",
+      "forcerange"
+    ],
+    "controller_config_parameters": [
+      "current_limit_a",
+      "voltage_limit_v"
+    ],
+    "diagnostics_max_severity": "info"
+  }
+}
