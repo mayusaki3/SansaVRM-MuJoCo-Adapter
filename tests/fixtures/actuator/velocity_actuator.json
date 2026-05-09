@@ -1,0 +1,26 @@
+{
+  "actuator_id": "left_wheel_motor",
+  "actuator_name": "Left Wheel Motor",
+  "target_joint": "left_wheel_joint",
+  "control_mode": "velocity",
+  "actuator_type": "motor",
+  "velocity_limit_rad_s": 30.0,
+  "torque_limit_nm": 1.2,
+  "kv": 2.5,
+  "gear_ratio": 1.0,
+  "custom_parameters": [
+    {
+      "namespace": "mujoco",
+      "name": "velocity_limit_rad_s",
+      "value": 30.0
+    }
+  ],
+  "expected": {
+    "mjcf_actuator_type": "velocity",
+    "mjcf_attributes": [
+      "kv",
+      "ctrlrange"
+    ],
+    "diagnostics_max_severity": "info"
+  }
+}
