@@ -1,0 +1,23 @@
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = [
+    "tests",
+]
+pythonpath = [
+    "src",
+]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+    "src/sansavrm_mujoco_adapter",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 100
