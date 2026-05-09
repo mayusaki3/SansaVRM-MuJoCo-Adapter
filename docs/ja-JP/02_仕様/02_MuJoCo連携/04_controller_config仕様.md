@@ -255,11 +255,11 @@ conversion_report には、`controller_config` へ分離した件数、対象 ac
 
 ## 21. 関連ドキュメント
 
-- `02_仕様/02_MuJoCo連携/01_MJCF変換方針.md`
-- `02_仕様/02_MuJoCo連携/02_アクチュエータ写像.md`
-- `02_仕様/02_MuJoCo連携/03_custom_parameter_mapping.md`
-- `02_仕様/01_共通/03_成果物仕様.md`
-- `02_仕様/01_共通/04_diagnostics仕様.md`
+- [MJCF変換方針](./01_MJCF変換方針.md)
+- [アクチュエータ写像](./02_アクチュエータ写像.md)
+- [custom parameter mapping](./03_custom_parameter_mapping.md)
+- [成果物仕様](../01_共通/03_成果物仕様.md)
+- [diagnostics仕様](../01_共通/04_diagnostics仕様.md)
 
 ---
 
