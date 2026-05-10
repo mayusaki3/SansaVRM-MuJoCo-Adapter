@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1.0",
+  "extension_properties": [
+    {
+      "extension_property_id": "ext-prop-000001",
+      "namespace": "mujoco",
+      "target_type": "actuator",
+      "target_id": "left_knee_servo",
+      "property_role": "control",
+      "io_scope": "adapter_artifact",
+      "adapter_scope": "sansavrm_mujoco_adapter",
+      "source_format": "sansavrm_extension_property",
+      "source_raw": null,
+      "normalized_value": {
+        "command_delay_ms": 5
+      },
+      "schema_ref": "schemas/extension_property/mujoco/control/command_delay.schema.json",
+      "diagnostics_ref": [
+        "diag-000001"
+      ],
+      "conversion_report_ref": [
+        "conv-000001"
+      ]
+    }
+  ]
+}
