@@ -68,3 +68,21 @@ def test_t_diagnostics_001_minimal_diagnostics_matches_schema() -> None:
         SCHEMA_DIR / "diagnostics.schema.json",
         FIXTURE_DIR / "diagnostics" / "minimal_diagnostics.json",
     )
+
+
+def test_t_runtimerequirements_001_minimal_runtime_requirements_matches_schema() -> None:
+    """T-RUNTIMEREQUIREMENTS-001: Validate the minimum runtime_requirements fixture."""
+    _validate_json(
+        SCHEMA_DIR / "runtime_requirements.schema.json",
+        FIXTURE_DIR / "runtime_requirements" / "minimal_runtime_requirements.json",
+    )
+
+
+def test_t_updatedextensionproperties_001_minimal_updated_extension_properties_matches_schema() -> None:
+    """T-UPDATEDEXTENSIONPROPERTIES-001: Validate the minimum updated_extension_properties fixture."""
+    _validate_json(
+        SCHEMA_DIR / "updated_extension_properties.schema.json",
+        FIXTURE_DIR
+        / "updated_extension_properties"
+        / "minimal_updated_extension_properties.json",
+    )
