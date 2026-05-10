@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "required_runtime": "meridian_mujoco_runtime",
+  "required_runtime_version": {
+    "min": "0.1.0",
+    "max": null
+  },
+  "requirements": {
+    "requires_external_control_loop": true,
+    "requires_sysid_result": false,
+    "requires_hil": false,
+    "requires_sil": true,
+    "requires_sensor_frame": true,
+    "requires_contact_events": false,
+    "requires_device_raw_mapping": false
+  },
+  "required_features": [
+    "controller_config",
+    "sensor_frame"
+  ],
+  "unsupported_without_runtime": [],
+  "diagnostics_ref": [
+    "diag-000002"
+  ]
+}
