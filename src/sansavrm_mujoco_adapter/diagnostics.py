@@ -15,13 +15,16 @@ DiagnosticSeverity = Literal["info", "warning", "error", "fatal"]
 DiagnosticCategory = Literal[
     "input",
     "schema",
+    "extension_property",
     "mapping",
     "mjcf",
     "adapter_artifact",
+    "runtime_artifact",
     "version",
     "fallback",
     "non_reversible",
     "unsupported",
+    "source_raw",
     "output",
     "runtime",
 ]
