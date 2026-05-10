@@ -23,11 +23,14 @@ SansaVRM-MuJoCo-Adapter は、以下の事象を diagnostics として記録す�
 
 - 必須情報の不足
 - schema 不整合
+- Extension Property Schema 不整合
 - MuJoCo バージョン非対応
 - MJCF へ直接出力できない情報
 - Adapter 側補助成果物へ分離した情報
+- runtime 側成果物へ分離した情報
 - fallback を適用した情報
 - 非可逆変換となった情報
+- source_raw として保持した情報
 - 未対応パラメータ
 - 変換対象外と判断した情報
 
@@ -39,6 +42,9 @@ diagnostics は、以下の役割を持つ。
 - 変換時の判断理由を記録する
 - MJCF に入らなかった情報の扱いを記録する
 - controller_config などの補助成果物へ分離した情報を記録する
+- runtime_requirements などの runtime 成果物へ分離した情報を記録する
+- Extension Property の分類結果を記録する
+- source_raw として保持した理由を記録する
 - fallback 適用の有無を記録する
 - 非可逆変換情報を記録する
 - SansaVRM 本体へ返却する診断情報の基礎とする
@@ -95,7 +101,9 @@ severity は以下のいずれかとする。
 例：
 
 - Adapter 側補助成果物へ情報を分離した
+- runtime 側成果物へ情報を分離した
 - fallback を使用せず既定変換を行った
+- Extension Property を preserve_only として保持した
 
 ### 6.2 warning
 
@@ -104,8 +112,10 @@ severity は以下のいずれかとする。
 例：
 
 - 一部の情報が MJCF へ直接出力されず controller_config へ分離された
+- 一部の情報が runtime_requirements へ分離された
 - 非可逆変換が発生した
 - fallback が適用された
+- source_raw を解釈せず保持した
 
 ### 6.3 error
 
@@ -114,8 +124,10 @@ severity は以下のいずれかとする。
 例：
 
 - 必須パラメータが不足している
+- Extension Property Schema と値が一致しない
 - custom parameter schema と値が一致しない
 - 対象 MuJoCo バージョンで未対応のパラメータが使用されている
+- required runtime が未指定である
 
 ### 6.4 fatal
 
@@ -135,13 +147,16 @@ category は以下のいずれかを初期候補とする。
 
 - `input`
 - `schema`
+- `extension_property`
 - `mapping`
 - `mjcf`
 - `adapter_artifact`
+- `runtime_artifact`
 - `version`
 - `fallback`
 - `non_reversible`
 - `unsupported`
+- `source_raw`
 - `output`
 - `runtime`
 
@@ -159,9 +174,12 @@ D-<CATEGORY>-<NUMBER>
 
 ```text
 D-SCHEMA-001
+D-EXTENSION-PROPERTY-001
 D-MJCF-001
+D-RUNTIME-ARTIFACT-001
 D-FALLBACK-001
 D-UNSUPPORTED-001
+D-SOURCE-RAW-001
 ```
 
 ## 9. target_type
@@ -179,8 +197,12 @@ target_type は、診断対象の種類を表す。
 - collider
 - actuator
 - sensor
+- device
+- runtime
 - custom_parameter
 - custom_parameter_schema
+- extension_property
+- extension_property_schema
 - artifact
 
 ## 10. target_id
@@ -197,8 +219,12 @@ source は、診断項目の発生元を表す。
 
 - sansavrm_api
 - adapter
+- extension_property_reader
+- extension_property_writer
 - mjcf_writer
 - controller_config_writer
+- runtime_requirements_writer
+- updated_extension_properties_writer
 - conversion_report_writer
 - diagnostics_writer
 - mujoco_loader
@@ -220,7 +246,19 @@ detail の内容は診断項目により異なる。
 }
 ```
 
-## 13. 出力例
+Extension Property に関する診断では、以下を detail に含めてよい。
+
+- namespace
+- target_type
+- target_id
+- property_role
+- io_scope
+- adapter_scope
+- schema_ref
+- artifact
+- mapping_path
+
+## 13. 出力例: Adapter補助成果物への分離
 
 ```json
 {
@@ -229,21 +267,72 @@ detail の内容は診断項目により異なる。
       "diagnostic_id": "diag-000001",
       "severity": "warning",
       "category": "adapter_artifact",
-      "code": "D-ADAPTER-001",
+      "code": "D-ADAPTER-ARTIFACT-001",
       "message": "command_delay_ms は MJCF に直接出力せず controller_config へ分離しました。",
       "target_type": "actuator",
       "target_id": "left_knee_servo",
       "source": "controller_config_writer",
       "detail": {
         "parameter": "command_delay_ms",
-        "artifact": "controller_config.json"
+        "artifact": "controller_config.json",
+        "io_scope": "adapter_artifact"
       }
     }
   ]
 }
 ```
 
-## 14. conversion_reportとの関係
+## 14. 出力例: runtime成果物への分離
+
+```json
+{
+  "diagnostics": [
+    {
+      "diagnostic_id": "diag-000002",
+      "severity": "info",
+      "category": "runtime_artifact",
+      "code": "D-RUNTIME-ARTIFACT-001",
+      "message": "requires_external_control_loop は runtime_requirements へ分離しました。",
+      "target_type": "runtime",
+      "target_id": null,
+      "source": "runtime_requirements_writer",
+      "detail": {
+        "namespace": "meridian",
+        "property_role": "runtime",
+        "io_scope": "runtime_artifact",
+        "adapter_scope": "meridian_mujoco_runtime",
+        "artifact": "runtime_requirements.json"
+      }
+    }
+  ]
+}
+```
+
+## 15. 出力例: source_raw保持
+
+```json
+{
+  "diagnostics": [
+    {
+      "diagnostic_id": "diag-000003",
+      "severity": "info",
+      "category": "source_raw",
+      "code": "D-SOURCE-RAW-001",
+      "message": "source_raw は解釈せず Extension Property として保持しました。",
+      "target_type": "extension_property",
+      "target_id": "vendor-servo-setting-001",
+      "source": "extension_property_reader",
+      "detail": {
+        "namespace": "vendor",
+        "io_scope": "source_raw",
+        "schema_ref": null
+      }
+    }
+  ]
+}
+```
+
+## 16. conversion_reportとの関係
 
 conversion_report は変換結果の概要を記録する。
 
@@ -251,15 +340,19 @@ diagnostics は個別の警告・エラー・補足情報を記録する。
 
 同一の事象について、conversion_report には集計情報を記録し、diagnostics には詳細情報を記録してよい。
 
-## 15. SansaVRM本体への返却
+Extension Property の分類結果は、conversion_report に集計し、diagnostics に個別理由を記録してよい。
+
+## 17. SansaVRM本体への返却
 
 Adapter は、diagnostics を SansaVRM 本体側へ返却または記録できる。
 
 SansaVRM 本体側で diagnostics を保持する場合、Adapter 側 diagnostics の内容を失ってはならない。
 
+SansaVRM 側に返却する updated_extension_properties には、関連する `diagnostics_ref` を含めることができる。
+
 ただし、表示用の要約や severity によるフィルタリングは許容する。
 
-## 16. Git管理方針
+## 18. Git管理方針
 
 以下は Git 管理対象とする。
 
@@ -273,7 +366,7 @@ SansaVRM 本体側で diagnostics を保持する場合、Adapter 側 diagnostic
 - ローカルログ
 - 大量の検証結果
 
-## 17. 非スコープ
+## 19. 非スコープ
 
 本ドキュメントでは、以下を非スコープとする。
 
@@ -281,12 +374,14 @@ SansaVRM 本体側で diagnostics を保持する場合、Adapter 側 diagnostic
 - UI 表示仕様
 - SansaVRM 本体側 diagnostics 表示仕様
 - MuJoCo runtime のエラー体系全体の再定義
+- Project Meridian runtime のエラー体系全体の再定義
 
-## 18. 関連ドキュメント
+## 20. 関連ドキュメント
 
 - [仕様概要](./01_仕様概要.md)
 - [AdapterAPI前提](./02_AdapterAPI前提.md)
 - [成果物仕様](./03_成果物仕様.md)
+- [SansaVRM拡張プロパティ連携方針](../03_外部連携/01_SansaVRM拡張プロパティ連携方針.md)
 
 ---
 
