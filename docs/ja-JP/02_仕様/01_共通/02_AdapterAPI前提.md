@@ -25,6 +25,10 @@ Adapter は、SansaVRM 本体が提供する安定した公開 API または同�
 
 SansaVRM 本体 API の名称、引数、戻り値の詳細は SansaVRM 本体仕様に従う。
 
+Adapter は、MuJoCo / Project Meridian / sysid / HIL-SIL 固有情報が SansaVRM Core 標準仕様へ直接組み込まれることを前提にしてはならない。
+
+Adapter は、SansaVRM Core 標準構造と SansaVRM Extension Property を分けて扱う。
+
 ## 3. 読み取り対象
 
 Adapter は、SansaVRM 本体 API から以下の情報を取得できることを前提とする。
@@ -39,10 +43,35 @@ Adapter は、SansaVRM 本体 API から以下の情報を取得できること�
 - colliders
 - actuators
 - sensors
+- extension properties
+- extension property schemas
 - custom parameters
 - custom parameter schemas
 
-## 4. 書き込み対象
+custom parameter は、Extension Property の一種として扱う。
+
+## 4. Extension Property読み取り対象
+
+Adapter は、Extension Property から以下を取得できることを前提とする。
+
+- namespace
+- target_type
+- target_id
+- property_role
+- io_scope
+- adapter_scope
+- source_format
+- source_raw
+- normalized_value
+- schema_ref
+- diagnostics_ref
+- conversion_report_ref
+
+Adapter は、Extension Property の `schema_ref` または Extension Property Schema に基づいて処理する。
+
+Adapter は、`source_raw` だけを根拠に推測変換してはならない。
+
+## 5. 書き込み対象
 
 Adapter は、変換または検証の結果として、以下の情報を SansaVRM 本体側へ返却または記録できることを前提とする。
 
@@ -52,42 +81,55 @@ Adapter は、変換または検証の結果として、以下の情報を Sansa
 - unsupported parameter information
 - non-reversible conversion information
 - generated artifact metadata
+- updated extension properties
+- diagnostics_ref
+- conversion_report_ref
 
-## 5. 検証対象
+## 6. 検証対象
 
 Adapter は、SansaVRM 本体または共通検証層により、以下の検証を実行できることを前提とする。
 
 - 共通物理情報の妥当性検証
 - Adapter 固有パラメータの妥当性検証
+- Extension Property Schema の妥当性検証
 - custom parameter schema の妥当性検証
 - 必須パラメータの存在検証
 - 対象 MuJoCo バージョンに対する対応可否検証
 - MJCF 入出力可否の検証
 - Adapter 側補助成果物への分離可否検証
+- runtime 側成果物への分離可否検証
 
-## 6. Adapter API境界
+## 7. Adapter API境界
 
 Adapter API 境界は、SansaVRM 本体と SansaVRM-MuJoCo-Adapter の責務境界である。
 
-SansaVRM 本体は、共通モデル情報と schema を保持する。
+SansaVRM 本体は、共通モデル情報、Extension Property、schema を保持する。
 
 SansaVRM-MuJoCo-Adapter は、API から取得した情報をもとに、MuJoCo 固有の変換、近似、補助成果物生成、検証を行う。
 
-## 7. MJCF出力対象の判定
+## 8. MJCF出力対象の判定
 
-MJCF へ直接出力できる情報は、custom parameter schema に定義された `io_scope` と `mjcf_mapping` に基づいて判定する。
+MJCF へ直接出力できる情報は、Extension Property Schema または custom parameter schema に定義された `io_scope` と `mjcf_mapping` に基づいて判定する。
 
 Adapter は、MJCF へ直接出力できるかどうかを実装側の推測で判定してはならない。
 
 `io_scope = mjcf` または `io_scope = both` の情報は、`mjcf_mapping` に従って MJCF へ出力する。
 
-## 8. Adapter補助成果物対象の判定
+## 9. Adapter補助成果物対象の判定
 
-MJCF へ直接出力しない情報は、custom parameter schema に定義された `io_scope` と `adapter_artifact` に基づいて判定する。
+MJCF へ直接出力しない情報は、Extension Property Schema または custom parameter schema に定義された `io_scope` と `adapter_artifact` に基づいて判定する。
 
 `io_scope = adapter_artifact` または `io_scope = both` の情報は、`adapter_artifact` に従って controller_config などの Adapter 側補助成果物へ出力する。
 
-## 9. diagnostics連携
+## 10. runtime成果物対象の判定
+
+Project Meridian / meridian-mujoco-runtime 側で必要な情報は、Extension Property Schema に定義された `io_scope`、`adapter_scope`、`external_runtime_mapping` に基づいて判定する。
+
+`io_scope = runtime_artifact` の情報は、`runtime_requirements.json` または runtime 側成果物へ分離する。
+
+`adapter_scope = meridian_mujoco_runtime` の情報は、SansaVRM-MuJoCo-Adapter 内で実行せず、runtime 側要求として扱う。
+
+## 11. diagnostics連携
 
 Adapter は、以下の事象を diagnostics として記録する。
 
@@ -96,23 +138,29 @@ Adapter は、以下の事象を diagnostics として記録する。
 - MuJoCo バージョン非対応
 - MJCF へ出力できない情報
 - Adapter 側補助成果物へ分離した情報
+- runtime 側成果物へ分離した情報
 - fallback を適用した情報
 - 非可逆変換となった情報
+- source_raw として保持した情報
 
-## 10. 非スコープ
+## 12. 非スコープ
 
 本ドキュメントでは、以下を非スコープとする。
 
 - SansaVRM Core API の詳細な関数シグネチャ
 - SansaVRM 本体の内部データ構造
+- SansaVRM Core 標準仕様への Extension Property 統合
 - MuJoCo runtime の実装
 - MJCF XML 生成アルゴリズムの詳細
 - controller_config の具体的 schema
+- Project Meridian runtime の実装
+- HIL / SIL bridge の実装
 
-## 11. 関連ドキュメント
+## 13. 関連ドキュメント
 
 - [責務境界](../../01_要件定義/01_基本要件/03_責務境界.md)
 - [仕様概要](./01_仕様概要.md)
+- [SansaVRM拡張プロパティ連携方針](../03_外部連携/01_SansaVRM拡張プロパティ連携方針.md)
 
 ---
 
