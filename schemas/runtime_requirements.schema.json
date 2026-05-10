@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mayusaki3.github.io/SansaVRM-MuJoCo-Adapter/schemas/runtime_requirements.schema.json",
+  "title": "SansaVRM-MuJoCo-Adapter runtime_requirements",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "required_runtime",
+    "required_runtime_version",
+    "requirements",
+    "required_features",
+    "diagnostics_ref"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_runtime": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_runtime_version": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "max": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requires_external_control_loop",
+        "requires_sysid_result",
+        "requires_hil",
+        "requires_sil",
+        "requires_sensor_frame",
+        "requires_contact_events",
+        "requires_device_raw_mapping"
+      ],
+      "properties": {
+        "requires_external_control_loop": {
+          "type": "boolean"
+        },
+        "requires_sysid_result": {
+          "type": "boolean"
+        },
+        "requires_hil": {
+          "type": "boolean"
+        },
+        "requires_sil": {
+          "type": "boolean"
+        },
+        "requires_sensor_frame": {
+          "type": "boolean"
+        },
+        "requires_contact_events": {
+          "type": "boolean"
+        },
+        "requires_device_raw_mapping": {
+          "type": "boolean"
+        }
+      }
+    },
+    "required_features": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unsupported_without_runtime": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "default": []
+    },
+    "diagnostics_ref": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
