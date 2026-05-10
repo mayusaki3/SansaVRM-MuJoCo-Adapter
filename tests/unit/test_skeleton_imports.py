@@ -7,7 +7,13 @@ before detailed adapter implementation is added.
 from __future__ import annotations
 
 import sansavrm_mujoco_adapter
-from sansavrm_mujoco_adapter import controller_config, diagnostics, mjcf_loader
+from sansavrm_mujoco_adapter import (
+    controller_config,
+    diagnostics,
+    mjcf_loader,
+    runtime_requirements,
+    updated_extension_properties,
+)
 
 
 def test_package_has_version() -> None:
@@ -21,3 +27,5 @@ def test_skeleton_modules_are_importable() -> None:
     assert diagnostics is not None
     assert controller_config is not None
     assert mjcf_loader is not None
+    assert runtime_requirements is not None
+    assert updated_extension_properties is not None
