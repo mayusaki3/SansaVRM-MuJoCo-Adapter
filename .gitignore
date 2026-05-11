@@ -45,6 +45,8 @@ logs/
 *.mjb
 *.mjcf.compiled.xml
 controller_config.local.json
+runtime_requirements.local.json
+updated_extension_properties.local.json
 conversion_report.local.json
 diagnostics.local.json
 test_report.local.json
