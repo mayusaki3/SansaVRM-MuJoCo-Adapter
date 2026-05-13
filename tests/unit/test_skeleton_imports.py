@@ -10,6 +10,7 @@ import sansavrm_mujoco_adapter
 from sansavrm_mujoco_adapter import (
     controller_config,
     diagnostics,
+    extension_property_classifier,
     mjcf_loader,
     runtime_requirements,
     updated_extension_properties,
@@ -29,3 +30,4 @@ def test_skeleton_modules_are_importable() -> None:
     assert mjcf_loader is not None
     assert runtime_requirements is not None
     assert updated_extension_properties is not None
+    assert extension_property_classifier is not None
