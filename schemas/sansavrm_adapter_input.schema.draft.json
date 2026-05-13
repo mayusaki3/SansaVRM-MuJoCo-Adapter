@@ -1,0 +1,389 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mayusaki3.github.io/SansaVRM-MuJoCo-Adapter/schemas/sansavrm_adapter_input.schema.draft.json",
+  "title": "SansaVRM Adapter Input Draft Schema",
+  "description": "Draft schema for SansaVRM-MuJoCo-Adapter input. This schema is provisional and is not the canonical SansaVRM specification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_status",
+    "schema_version",
+    "source",
+    "model",
+    "modules",
+    "connections",
+    "slots",
+    "properties",
+    "joints",
+    "colliders",
+    "actuators",
+    "sensors",
+    "extension_properties",
+    "extension_property_schemas",
+    "custom_parameters",
+    "custom_parameter_schemas"
+  ],
+  "properties": {
+    "schema_status": {
+      "type": "string",
+      "const": "draft"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "generator",
+        "is_canonical_sansavrm_schema"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "generator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "is_canonical_sansavrm_schema": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_id",
+        "name"
+      ],
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true,
+          "default": {}
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entity"
+      }
+    },
+    "connections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entity"
+      }
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entity"
+      }
+    },
+    "properties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entity"
+      }
+    },
+    "joints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/joint"
+      }
+    },
+    "colliders": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/collider"
+      }
+    },
+    "actuators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/actuator"
+      }
+    },
+    "sensors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entity"
+      }
+    },
+    "extension_properties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/extension_property"
+      }
+    },
+    "extension_property_schemas": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/schema_ref_object"
+      }
+    },
+    "custom_parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/extension_property"
+      }
+    },
+    "custom_parameter_schemas": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/schema_ref_object"
+      }
+    }
+  },
+  "$defs": {
+    "entity": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "joint": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "name",
+        "type",
+        "parent_module_id",
+        "child_module_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parent_module_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "child_module_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "axis": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "range": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "collider": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "name",
+        "module_id",
+        "shape"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "module_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shape": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "actuator": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "name",
+        "target_joint_id",
+        "control_mode"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_joint_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "control_mode": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "extension_property": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "extension_property_id",
+        "namespace",
+        "target_type",
+        "target_id",
+        "property_role",
+        "io_scope",
+        "adapter_scope",
+        "source_format",
+        "source_raw",
+        "normalized_value",
+        "schema_ref"
+      ],
+      "properties": {
+        "extension_property_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "namespace": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "property_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "io_scope": {
+          "type": "string",
+          "enum": [
+            "mjcf",
+            "adapter_artifact",
+            "runtime_artifact",
+            "both",
+            "preserve_only",
+            "unsupported",
+            "source_raw"
+          ]
+        },
+        "adapter_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_raw": {
+          "type": [
+            "object",
+            "array",
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null"
+          ]
+        },
+        "normalized_value": {
+          "type": [
+            "object",
+            "array",
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null"
+          ]
+        },
+        "schema_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "schema_ref_object": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "schema_id",
+        "schema_ref"
+      ],
+      "properties": {
+        "schema_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
