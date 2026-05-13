@@ -1,0 +1,118 @@
+{
+  "schema_status": "draft",
+  "schema_version": "0.1.0-draft",
+  "source": {
+    "format": "sansavrm_adapter_input",
+    "generator": "SansaVRM-MuJoCo-Adapter draft fixture",
+    "is_canonical_sansavrm_schema": false
+  },
+  "model": {
+    "model_id": "model-000001",
+    "name": "minimal_robot",
+    "metadata": {
+      "note": "Draft fixture. This is not a canonical SansaVRM schema."
+    }
+  },
+  "modules": [
+    {
+      "id": "base_module",
+      "name": "base"
+    },
+    {
+      "id": "leg_module",
+      "name": "leg"
+    }
+  ],
+  "connections": [
+    {
+      "id": "left_knee_connection",
+      "name": "left_knee_connection"
+    }
+  ],
+  "slots": [],
+  "properties": [],
+  "joints": [
+    {
+      "id": "left_knee_joint",
+      "name": "left_knee",
+      "type": "hinge",
+      "parent_module_id": "base_module",
+      "child_module_id": "leg_module",
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "range": [
+        -1.57,
+        1.57
+      ]
+    }
+  ],
+  "colliders": [
+    {
+      "id": "base_collider",
+      "name": "base_box",
+      "module_id": "base_module",
+      "shape": "box",
+      "size": [
+        0.1,
+        0.1,
+        0.1
+      ]
+    }
+  ],
+  "actuators": [
+    {
+      "id": "left_knee_servo",
+      "name": "left_knee_servo",
+      "target_joint_id": "left_knee_joint",
+      "control_mode": "position"
+    }
+  ],
+  "sensors": [],
+  "extension_properties": [
+    {
+      "extension_property_id": "ext-prop-command-delay",
+      "namespace": "mujoco",
+      "target_type": "actuator",
+      "target_id": "left_knee_servo",
+      "property_role": "control",
+      "io_scope": "adapter_artifact",
+      "adapter_scope": "sansavrm_mujoco_adapter",
+      "source_format": "sansavrm_extension_property",
+      "source_raw": null,
+      "normalized_value": {
+        "command_delay_ms": 5
+      },
+      "schema_ref": "schemas/extension_property/mujoco/control/command_delay.schema.json"
+    },
+    {
+      "extension_property_id": "ext-prop-runtime-requirement",
+      "namespace": "meridian",
+      "target_type": "runtime",
+      "target_id": null,
+      "property_role": "runtime",
+      "io_scope": "runtime_artifact",
+      "adapter_scope": "meridian_mujoco_runtime",
+      "source_format": "sansavrm_extension_property",
+      "source_raw": null,
+      "normalized_value": {
+        "requires_external_control_loop": true
+      },
+      "schema_ref": "schemas/extension_property/meridian/runtime/requirements.schema.json"
+    }
+  ],
+  "extension_property_schemas": [
+    {
+      "schema_id": "mujoco-command-delay-draft",
+      "schema_ref": "schemas/extension_property/mujoco/control/command_delay.schema.json"
+    },
+    {
+      "schema_id": "meridian-runtime-requirements-draft",
+      "schema_ref": "schemas/extension_property/meridian/runtime/requirements.schema.json"
+    }
+  ],
+  "custom_parameters": [],
+  "custom_parameter_schemas": []
+}
