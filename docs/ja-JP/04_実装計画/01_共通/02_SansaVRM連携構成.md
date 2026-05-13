@@ -29,7 +29,43 @@ SansaVRM 側は Rust 実装を初期想定とする。
 
 Rust と Python を直接密結合させず、初期段階では JSON ベースの中間成果物連携を優先する。
 
-## 3. 全体構成
+SansaVRM 側から、Adapter 側で draft / provisional / experimental として `sansavrm_adapter_input` schema / fixture / classifier / writer の先行実装を進めてよい旨が回答されている。
+
+## 3. Layer責務の前提
+
+SansaVRM 側では、Adapter 入力 JSON、Extension Property、updated_extension_properties、diagnostics、conversion_report の責務を Layer 単位で整理する。
+
+Adapter 側では、以下の前提を置く。
+
+```text
+Adapter Input JSON:
+  Import Export Layer ↔ Runtime Integration Layer の境界仕様
+
+Extension Property:
+  Preservation Compatibility Layer を主責務とする
+  Runtime Adapter contract として使う場合は Runtime Integration Layer から参照する
+
+updated_extension_properties.json:
+  Runtime / Import Export boundary の更新候補
+  Core semantic へ直接反映しない
+
+diagnostics.json:
+  Validation Layer artifact
+
+conversion_report.json:
+  Validation Layer artifact
+
+model.xml:
+  Runtime / Import Export representation
+
+controller_config.json:
+  Runtime Integration artifact
+
+runtime_requirements.json:
+  Runtime Integration / Validation boundary artifact
+```
+
+## 4. 全体構成
 
 想定する全体構成は以下とする。
 
@@ -50,7 +86,7 @@ conversion_report.json
 meridian-mujoco-runtime
 ```
 
-## 4. 開発用構成
+## 5. 開発用構成
 
 開発用構成は、SansaVRM 本体が未完成または変更中でも Adapter 側の検証を進められるようにするための構成である。
 
@@ -66,7 +102,7 @@ SansaVRM-MuJoCo-Adapter
 MuJoCo artifacts
 ```
 
-## 5. 開発用構成の目的
+## 6. 開発用構成の目的
 
 開発用構成の目的は以下とする。
 
@@ -77,12 +113,14 @@ MuJoCo artifacts
 - updated_extension_properties 生成を fixture ベースで検証する
 - diagnostics / conversion_report を再現可能に検証する
 - CI で SansaVRM 本体に依存しない headless テストを実行する
+- Adapter 入力 JSON の draft schema / fixture を先行検証する
 
-## 6. 開発用入力
+## 7. 開発用入力
 
 開発用入力は以下を想定する。
 
 - SansaVRM export fixture
+- Adapter input fixture
 - Extension Property fixture
 - custom parameter fixture
 - actuator fixture
@@ -94,6 +132,7 @@ MuJoCo artifacts
 
 ```text
 tests/fixtures/sansavrm_export/
+tests/fixtures/sansavrm_adapter_input/
 tests/fixtures/extension_property/
 tests/fixtures/actuator/
 tests/fixtures/controller_config/
@@ -101,7 +140,33 @@ tests/fixtures/runtime_requirements/
 tests/fixtures/updated_extension_properties/
 ```
 
-## 7. 開発用出力
+## 8. draft schema命名方針
+
+SansaVRM 側の正本仕様が確定する前に Adapter 側で作成する Adapter 入力 JSON schema は、draft / provisional / experimental であることを明示する。
+
+推奨ファイル名は以下とする。
+
+```text
+sansavrm_adapter_input.schema.draft.json
+```
+
+または以下とする。
+
+```text
+sansavrm_adapter_input.schema.experimental.json
+```
+
+本リポジトリでは、初期 draft schema として以下を使用する。
+
+```text
+schemas/sansavrm_adapter_input.schema.draft.json
+```
+
+この schema は SansaVRM 正本仕様ではない。
+
+SansaVRM 側の正本仕様確定後、破棄、修正、または正本仕様への追従を行う。
+
+## 9. 開発用出力
 
 開発用出力は以下を想定する。
 
@@ -117,7 +182,7 @@ output/
 
 `output/` 配下はローカル生成物であり、Git 管理対象外とする。
 
-## 8. 利用用構成
+## 10. 利用用構成
 
 利用用構成は、実際の SansaVRM Rust モジュールと SansaVRM-MuJoCo-Adapter を組み合わせて利用する構成である。
 
@@ -135,17 +200,17 @@ SansaVRM-MuJoCo-Adapter
 MuJoCo artifacts
 ```
 
-## 9. 利用用入力境界
+## 11. 利用用入力境界
 
 利用用入力境界は、SansaVRM Rust モジュールが出力する Adapter 入力用 JSON とする。
 
-初期候補名は以下とする。
+正本仕様確定後の候補名は以下とする。
 
 ```text
 sansavrm_adapter_input.json
 ```
 
-` sansavrm_adapter_input.json` には、少なくとも以下を含める。
+` sansavrm_adapter_input.json` には、少なくとも以下を含める想定である。
 
 - model metadata
 - modules
@@ -162,7 +227,9 @@ sansavrm_adapter_input.json
 - custom_parameters
 - custom_parameter_schemas
 
-## 10. 利用用出力境界
+ただし、required / optional field は SansaVRM 正本仕様確定後に再検証する。
+
+## 12. 利用用出力境界
 
 利用用出力境界は、Adapter が生成する成果物一式とする。
 
@@ -179,11 +246,45 @@ conversion_report.json
 
 SansaVRM Rust モジュールは、必要に応じて `updated_extension_properties.json` を読み込み、SansaVRM Extension Property として再格納する。
 
-## 11. Rust / Python 連携方式
+ただし、`updated_extension_properties.json` は更新候補であり、review / rewrite / validation なしに Core semantic へ直接反映してはならない。
+
+## 13. updated_extension_propertiesの取り扱い
+
+`updated_extension_properties.json` は、Adapter 出力から SansaVRM 側へ戻る更新候補である。
+
+扱いは以下とする。
+
+1. Adapter output として受領する
+2. Validation Layer で diagnostics / classification を行う
+3. Core semantic candidate が含まれる場合は review 対象にする
+4. 必要に応じて rewrite transaction を通す
+5. canonicalization / validation を通過したもののみ正本へ反映する
+
+Adapter 側では、`updated_extension_properties.json` を更新確定データとして扱わない。
+
+## 14. diagnostics / conversion_reportの取り扱い
+
+`diagnostics.json` と `conversion_report.json` は Validation Layer の成果物として扱う。
+
+これらは Core semantic identity ではない。
+
+ただし、canonicalization / rewrite / cleanup gate の判断材料として使用してよい。
+
+以下の情報は dashboard / validator に取り込む候補である。
+
+- conversion status
+- unsupported item
+- preserve_only item
+- source_raw item
+- adapter warning
+- adapter failure
+- runtime requirement mismatch
+
+## 15. Rust / Python 連携方式
 
 初期段階の Rust / Python 連携方式は、ファイルベース連携を優先する。
 
-### 11.1 推奨: JSONファイル連携
+### 15.1 推奨: JSONファイル連携
 
 ```text
 SansaVRM Rust module
@@ -200,7 +301,7 @@ Adapter outputs
 - SansaVRM 本体 API の変更影響を抑えられる
 - 中間成果物を保存して再現検証できる
 
-### 11.2 将来候補: CLI連携
+### 15.2 将来候補: CLI連携
 
 SansaVRM Rust モジュールと Adapter を CLI で連携する構成を将来候補とする。
 
@@ -210,7 +311,7 @@ python -m sansavrm_mujoco_adapter convert --input sansavrm_adapter_input.json --
 sansavrm import-extension-properties --input robot.sansavrm --extension-properties output/updated_extension_properties.json
 ```
 
-### 11.3 将来候補: FFI / Python binding
+### 15.3 将来候補: FFI / Python binding
 
 Rust と Python の直接連携は将来候補とする。
 
@@ -218,7 +319,7 @@ Rust と Python の直接連携は将来候補とする。
 
 直接連携方式は、Adapter API と中間 JSON schema が安定した後に検討する。
 
-## 12. 開発用手順
+## 16. 開発用手順
 
 開発者は、以下の順で作業する。
 
@@ -233,7 +334,7 @@ Rust と Python の直接連携は将来候補とする。
 
 初期段階では、SansaVRM Rust モジュールを必須依存にしない。
 
-## 13. 利用用手順
+## 17. 利用用手順
 
 利用者は、以下の順で使用する想定とする。
 
@@ -245,7 +346,7 @@ Rust と Python の直接連携は将来候補とする。
 6. 必要に応じて updated_extension_properties を SansaVRM 側へ再格納する
 7. model.xml / controller_config.json / runtime_requirements.json を meridian-mujoco-runtime へ渡す
 
-## 14. Project Meridianとの接続
+## 18. Project Meridianとの接続
 
 Project Meridian / meridian-mujoco-runtime は、Adapter の利用用出力を入力として扱う。
 
@@ -257,13 +358,25 @@ Project Meridian / meridian-mujoco-runtime は、Adapter の利用用出力を�
 
 meridian-mujoco-runtime の sysid、HIL / SIL、実ボード同期結果を SansaVRM 側へ戻す場合は、updated_extension_properties.json を経由する。
 
-## 15. nisocon-vr-battle-runtimeとの関係
+## 19. nisocon-vr-battle-runtimeとの関係
 
 SansaVRM-MuJoCo-Adapter は、nisocon-vr-battle-runtime と直接結合しない。
 
 nisocon-vr-battle-runtime は、meridian-mujoco-runtime の抽象 API を通じて MuJoCo 実行結果を利用する。
 
-## 16. 非スコープ
+## 20. 正本仕様確定後の再検証
+
+SansaVRM 正本仕様確定後、Adapter 側では以下を再検証する。
+
+- schema の正式名
+- required / optional field
+- Core semantic candidate の扱い
+- Extension Property 分類
+- updated_extension_properties 取り込み方針
+- diagnostics / conversion_report の正式 schema
+- Adapter 入力 JSON draft schema との差分
+
+## 21. 非スコープ
 
 本ドキュメントでは、以下を非スコープとする。
 
@@ -273,8 +386,9 @@ nisocon-vr-battle-runtime は、meridian-mujoco-runtime の抽象 API を通じ�
 - PyO3 / FFI / gRPC 実装
 - meridian-mujoco-runtime の実装
 - nisocon-vr-battle-runtime の実装
+- Adapter 入力 JSON draft schema を SansaVRM 正本仕様として確定すること
 
-## 17. 関連ドキュメント
+## 22. 関連ドキュメント
 
 - [開発環境構築](./00_開発環境構築.md)
 - [初版実装ロードマップ](./01_初版実装ロードマップ.md)
