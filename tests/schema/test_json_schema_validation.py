@@ -86,3 +86,11 @@ def test_t_updatedextensionproperties_001_minimal_updated_extension_properties_m
         / "updated_extension_properties"
         / "minimal_updated_extension_properties.json",
     )
+
+
+def test_t_sansavrminput_001_minimal_adapter_input_matches_draft_schema() -> None:
+    """T-SANSAVRMINPUT-001: Validate the minimum draft Adapter input fixture."""
+    _validate_json(
+        SCHEMA_DIR / "sansavrm_adapter_input.schema.draft.json",
+        FIXTURE_DIR / "sansavrm_adapter_input" / "minimal_sansavrm_adapter_input.json",
+    )
